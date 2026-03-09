@@ -1,6 +1,6 @@
 #!/bin/bash
 # Exercise 3: Reputation Query — On-chain reputation score
-cd /Users/osx/Projects/perkos-workshop
+cd "$(dirname "$0")"
 echo ""
 echo "  ╭──────────────────────────────────────────────╮"
 echo "  │  Comando:  npx @perkos/cli workshop 3        │"

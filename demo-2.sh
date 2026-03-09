@@ -1,6 +1,6 @@
 #!/bin/bash
 # Exercise 2: Identity Lookup — On-chain identity on Base
-cd /Users/osx/Projects/perkos-workshop
+cd "$(dirname "$0")"
 echo ""
 echo "  ╭──────────────────────────────────────────────╮"
 echo "  │  Comando:  npx @perkos/cli workshop 2        │"

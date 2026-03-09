@@ -1,6 +1,6 @@
 #!/bin/bash
 # Exercise 5: x402 Payment Flow — HTTP payment protocol
-cd /Users/osx/Projects/perkos-workshop
+cd "$(dirname "$0")"
 echo ""
 echo "  ╭──────────────────────────────────────────────╮"
 echo "  │  Comando:  npx @perkos/cli workshop 5        │"

@@ -6,7 +6,7 @@
 
 set -e
 
-cd /Users/osx/Projects/perkos-workshop
+cd "$(dirname "$0")"
 
 echo ""
 echo "  🧹  Limpiando instalacion anterior..."

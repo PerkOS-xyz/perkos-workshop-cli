@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run all read-only exercises (1-6)
-cd /Users/osx/Projects/perkos-workshop
+cd "$(dirname "$0")"
 echo ""
 echo "  ╭──────────────────────────────────────────────╮"
 echo "  │  Comando:  npx @perkos/cli workshop all      │"

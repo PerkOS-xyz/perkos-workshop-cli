@@ -1,6 +1,6 @@
 #!/bin/bash
 # Exercise 4: Agent Onboarding — Register agent via API
-cd /Users/osx/Projects/perkos-workshop
+cd "$(dirname "$0")"
 echo ""
 echo "  ╭──────────────────────────────────────────────╮"
 echo "  │  Comando:  npx @perkos/cli workshop 4        │"
