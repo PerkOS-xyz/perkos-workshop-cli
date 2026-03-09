@@ -2,13 +2,27 @@
 
 Workshop interactivo para demostrar el protocolo ERC-8004 y la economia de agentes trustless usando PerkOS Stack.
 
+## Installation
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/PerkOS-xyz/perkos-workshop-cli.git
+cd perkos-workshop-cli
+
+# 2. Install dependencies
+npm install
+
+# 3. Run your first exercise
+npx @perkos/cli workshop 1
+```
+
 ## Quick Start
 
 ```bash
-# 1. Empezar fresh (limpia todo, reinstala, genera wallet nueva)
+# Empezar fresh (limpia todo, reinstala, genera wallet nueva)
 ./fresh-start.sh
 
-# 2. Correr un ejercicio
+# Correr un ejercicio
 ./demo-1.sh
 ```
 
