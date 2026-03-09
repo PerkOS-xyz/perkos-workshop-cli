@@ -1,151 +1,109 @@
-# PerkOS ERC-8004 Workshop CLI
+# PerkOS ERC-8004 Workshop
 
-Interactive workshop for the [ERC-8004](https://github.com/PerkOS-xyz/ERC-8004-Workshop) trustless agent economy standard, powered by [PerkOS Stack](https://stack.perkos.xyz).
-
-## What is ERC-8004?
-
-ERC-8004 is an open standard for **on-chain agent identity and reputation**. It enables:
-
-- **Agent Identity** — Every AI agent gets a unique on-chain identity (NFT) via the Identity Registry
-- **Portable Reputation** — Transparent, immutable reputation scores that follow agents across platforms
-- **x402 Payments** — HTTP-native payment protocol ("like OAuth but for money") using signed USDC transfers
-- **CREATE2 Deployment** — Same contract addresses on ALL EVM chains (Base, Ethereum, Polygon, etc.)
-
-This workshop walks through the complete agent lifecycle in 7 exercises — from discovery to live on-chain registration.
+Workshop interactivo para demostrar el protocolo ERC-8004 y la economia de agentes trustless usando PerkOS Stack.
 
 ## Quick Start
 
 ```bash
-# Clone this repo
-git clone https://github.com/PerkOS-xyz/perkos-workshop-cli.git
-cd perkos-workshop-cli
-
-# Install and setup (generates a fresh wallet automatically)
+# 1. Empezar fresh (limpia todo, reinstala, genera wallet nueva)
 ./fresh-start.sh
 
-# Run your first exercise
+# 2. Correr un ejercicio
 ./demo-1.sh
 ```
 
-## Exercises
+## Scripts de Demo
 
-### Read-only (no gas needed)
+### Read-only (no necesitan gas)
 
-These exercises query the PerkOS Stack API and on-chain registries — no wallet funding required.
-
-| Script | Exercise | What it does |
+| Script | Ejercicio | Descripcion |
 |---|---|---|
-| `./demo-1.sh` | Discovery | Queries 5 standard agent endpoints: health, agent-card, erc-8004 descriptor, x402 discovery, and llms.txt |
-| `./demo-2.sh` | Identity Lookup | Reads the Identity Registry on Base mainnet — verifies CREATE2 address is the same across all EVM chains |
-| `./demo-3.sh` | Reputation Query | Fetches on-chain reputation for Agent #1: overall score, feedback count, unique clients, and recent feedback entries |
-| `./demo-4.sh` | Agent Onboarding | Calls the Stack API to get a full onboarding package: registration tx, x402 payment config, and registry addresses |
-| `./demo-5.sh` | x402 Payment Flow | Lists all 38 supported network/scheme pairs (exact + deferred) and checks RPC health across networks |
-| `./demo-6.sh` | Full End-to-End | Combines Discover > Identity > Reputation > Onboard in 4 API calls — the complete agent lifecycle |
-| `./demo-all.sh` | All (1-6) | Runs all 6 read-only exercises in sequence |
+| `./demo-1.sh` | [Discovery](exercises/01-discovery.md) | Consulta endpoints del agente (health, agent-card, erc-8004, x402, llms.txt) |
+| `./demo-2.sh` | [Identity Lookup](exercises/02-identity.md) | Consulta el Identity Registry on-chain en Base mainnet |
+| `./demo-3.sh` | [Reputation Query](exercises/03-reputation.md) | Lee reputacion on-chain: score, feedback, clientes unicos |
+| `./demo-4.sh` | [Agent Onboarding](exercises/04-onboarding.md) | Solicita paquete de registro via API (tx lista para firmar) |
+| `./demo-5.sh` | [x402 Payment Flow](exercises/05-x402-payment.md) | Explora metodos de pago x402 y salud de RPCs |
+| `./demo-6.sh` | [Full End-to-End](exercises/06-full-flow.md) | Ciclo completo: Discover > Identity > Reputation > Onboard |
+| `./demo-all.sh` | Todos (1-6) | Corre los 6 ejercicios read-only en secuencia |
 
-### On-chain (needs ETH on Base)
+### On-chain (necesita ETH en Base)
 
-| Script | Exercise | What it does |
+| Script | Ejercicio | Descripcion |
 |---|---|---|
-| `./demo-7.sh` | Live Agent Registration | Generates a new wallet, shows a QR code to fund it, polls for incoming ETH, then registers the agent on-chain and mints an AgentIdentity NFT |
+| `./demo-7.sh` | [Live Agent Registration](exercises/07-live-registration.md) | Transaccion real en Base mainnet — registra agente + feedback de reputacion |
 
-## Demo Flow
+## Flow para el Demo
 
-### 1. Fresh Start
+### Preparacion
 
 ```bash
+# Empezar desde cero
 ./fresh-start.sh
 ```
 
-This script:
-- Removes `node_modules/`, `package-lock.json`, and `.env`
-- Runs `npm install` to install all dependencies
-- Generates a new wallet (private key + address)
-- Shows the menu of available demo scripts
+Esto hace:
+- Limpia `node_modules`, `package-lock.json`, `.env`
+- Reinstala dependencias (`@perkos/cli`, `dotenv`, `viem`)
+- Genera una wallet nueva y muestra la address
 
-### 2. Run Exercises (Read-Only)
+### Ejercicios Read-Only (1-6)
 
-Run them one by one for a guided walkthrough:
+Correr uno por uno durante el demo:
 
 ```bash
-./demo-1.sh   # Discovery — 5 agent endpoints
-./demo-2.sh   # Identity — on-chain registry lookup
-./demo-3.sh   # Reputation — score and feedback
-./demo-4.sh   # Onboarding — registration package via API
-./demo-5.sh   # x402 — payment protocol and RPC health
-./demo-6.sh   # End-to-End — complete lifecycle in 4 calls
+./demo-1.sh   # Discovery — endpoints del agente
+./demo-2.sh   # Identity — registro on-chain
+./demo-3.sh   # Reputation — score y feedback
+./demo-4.sh   # Onboarding — registro via API
+./demo-5.sh   # x402 — pagos HTTP
+./demo-6.sh   # End-to-End — todo junto
 ```
 
-Or all at once:
+O todos de una vez:
 
 ```bash
 ./demo-all.sh
 ```
 
-Each script shows the CLI command at the top so participants can run it themselves:
+### Ejercicio 7: Live Registration
 
-```
-  ╭──────────────────────────────────────────────╮
-  │  Comando:  npx @perkos/cli workshop 3        │
-  ╰──────────────────────────────────────────────╯
-```
-
-### 3. Live Registration (On-Chain)
+Solo corre el script — el hace todo:
 
 ```bash
 ./demo-7.sh
 ```
 
-This script handles the full flow automatically:
+El script automaticamente:
+1. Genera una wallet nueva
+2. Muestra la address para fondear
+3. Hace polling del balance cada 3 segundos (timeout 5 min)
+4. Cuando detecta ETH, ejecuta el registro on-chain
 
-1. **Generates a fresh wallet** — new keypair, saved to `.env`
-2. **Shows a QR code** — scan with your phone to send ETH on Base
-3. **Polls the balance** — checks every 3 seconds (5 min timeout)
-4. **Registers on-chain** — calls `register()` on the Identity Registry
-5. **Mints an NFT** — AgentIdentity token is minted to the wallet
-6. **Submits reputation** — on-chain feedback to the Reputation Registry
+Solo necesitas enviar ~$0.01 ETH en Base a la address que muestra.
 
-Only needs ~$0.01 ETH on Base for gas.
+### Wallet Nueva (sin reinstalar)
 
-### Generate New Wallet (without reinstalling)
+Si solo necesitas generar otra wallet sin limpiar todo:
 
 ```bash
 ./fresh-run.sh
 ```
 
-## Architecture
+## Contratos ERC-8004
 
-```
-PerkOS Stack (https://stack.perkos.xyz)
-├── /.well-known/agent-card.json    — ERC-8004 agent identity card
-├── /.well-known/erc-8004.json      — ERC-8004 descriptor
-├── /.well-known/x402-discovery.json — x402 payment discovery
-├── /api/health                      — Health check
-├── /api/llms.txt                    — LLM-readable agent guide
-├── /api/erc8004/identity            — Identity Registry queries
-├── /api/erc8004/reputation          — Reputation Registry queries
-├── /api/v2/agents/onboard           — Agent registration package
-├── /api/v2/x402/supported           — Supported payment networks
-└── /api/v2/x402/health              — RPC health across networks
-```
+Direcciones CREATE2 — mismas en todas las cadenas EVM:
 
-## ERC-8004 Contracts
-
-CREATE2 addresses — identical on ALL EVM chains:
-
-| Contract | Address |
+| Contrato | Address |
 |---|---|
 | Identity Registry | `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432` |
 | Reputation Registry | `0x8004BAa17C55a88189AE136b182e5fdA19dE9b63` |
 
-## References
+## Stack
 
-- **ERC-8004 Workshop** — https://github.com/PerkOS-xyz/ERC-8004-Workshop
-- **PerkOS CLI (source)** — https://github.com/PerkOS-xyz/PerkOS-Client
-- **PerkOS Stack** — https://stack.perkos.xyz
-- **PerkOS** — https://perkos.xyz
+- PerkOS Stack: https://stack.perkos.xyz
+- Referencia CLI: https://github.com/PerkOS-xyz/PerkOS-Client
 
-## Requirements
+## Requisitos
 
 - Node.js 18+
 - npm
